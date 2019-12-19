@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:ke_taxi/modules/about_view.dart';
 import 'package:ke_taxi/modules/contact_view.dart';
 import 'package:ke_taxi/modules/history_view.dart';
@@ -9,17 +10,31 @@ import 'package:ke_taxi/modules/signup_view.dart';
 import 'package:ke_taxi/routes/Rroutes.dart';
 import 'package:ke_taxi/modules/home_view.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(KeTaxiApp());
+}
 
-class MyApp extends StatelessWidget {
+class KeTaxiApp extends StatelessWidget {
   bool isLoggedIn = false;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Ke-Taxi',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
+    final HttpLink httpLink = HttpLink(
+      uri: 'http://172.21.0.1:4000',
+    );
+
+    final ValueNotifier<GraphQLClient> client = ValueNotifier(
+      GraphQLClient(
+        cache: InMemoryCache(),
+        link: httpLink,
       ),
+    );
+
+    return GraphQLProvider(
+      child: MaterialApp(
+        title: 'Ke-Taxi',
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+        ),
       home: isLoggedIn ? HomeView() : SigninView() ,
       routes: {
         Routes.home: (context) => HomeView(),
