@@ -25,7 +25,8 @@ class _AppDrawerState extends State<AppDrawer> {
         options: QueryOptions(
           document: userQuery,
         ),
-        builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore }) {
+        builder: (QueryResult result,
+            {VoidCallback refetch, FetchMore fetchMore}) {
           if (result.errors != null) {
             return Text(result.errors.toString());
           }
@@ -53,33 +54,39 @@ class _AppDrawerState extends State<AppDrawer> {
               _createDrawerItem(
                 icon: Icons.home,
                 text: 'Home',
-                onTap: () => Navigator.pushReplacementNamed(context, Routes.home),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, Routes.home),
               ),
               _createDrawerItem(
                 icon: Icons.person,
                 text: 'Profile',
-                onTap: () => Navigator.pushReplacementNamed(context, Routes.profile),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, Routes.profile),
               ),
               _createDrawerItem(
                 icon: Icons.history,
                 text: 'History',
-                onTap: () => Navigator.pushReplacementNamed(context, Routes.history),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, Routes.history),
               ),
               Divider(),
               _createDrawerItem(
                 icon: Icons.info,
                 text: 'About us',
-                onTap: () => Navigator.pushReplacementNamed(context, Routes.about),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, Routes.about),
               ),
               _createDrawerItem(
                 icon: Icons.contacts,
                 text: 'Contact us',
-                onTap: () => Navigator.pushReplacementNamed(context, Routes.contact),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, Routes.contact),
               ),
               _createDrawerItem(
                 icon: Icons.note,
                 text: 'Terms & Conditions',
-                onTap: () => Navigator.pushReplacementNamed(context, Routes.policy),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, Routes.policy),
               ),
               ListTile(
                 title: Text('0.0.1'),
@@ -92,9 +99,8 @@ class _AppDrawerState extends State<AppDrawer> {
     );
   }
 
-  Widget _createDrawerItem({
-    IconData icon, String text, GestureTapCallback onTap
-  }) {
+  Widget _createDrawerItem(
+      {IconData icon, String text, GestureTapCallback onTap}) {
     return ListTile(
       title: Row(
         children: <Widget>[
@@ -102,13 +108,10 @@ class _AppDrawerState extends State<AppDrawer> {
           Padding(
             padding: EdgeInsets.only(left: 8.0),
             child: Text(text),
-          )
+          ),
         ],
       ),
       onTap: onTap,
     );
   }
 }
-
-
-
