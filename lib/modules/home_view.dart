@@ -35,6 +35,7 @@ class _HomeViewState extends State<HomeView> {
 
     formWidget.add(
       new DropdownButton(
+ 
         icon: Icon(Icons.keyboard_arrow_down),
         hint: new Text('From'),
         items: locationList,
@@ -43,6 +44,7 @@ class _HomeViewState extends State<HomeView> {
           height: 2,
           color: Colors.white,
         ),
+
         onChanged: (value) {
           setState(() {
             _selectedFromLocation = value;
@@ -51,6 +53,7 @@ class _HomeViewState extends State<HomeView> {
         isExpanded: true,
       ),
     );
+
 
     formWidget.add(
       Divider(
@@ -76,6 +79,7 @@ class _HomeViewState extends State<HomeView> {
         isExpanded: true,
       ),
     );
+
 
     return formWidget;
   }
