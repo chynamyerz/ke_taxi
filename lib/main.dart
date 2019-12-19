@@ -15,7 +15,6 @@ void main() {
 }
 
 class KeTaxiApp extends StatelessWidget {
-  bool isLoggedIn = false;
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
@@ -35,17 +34,19 @@ class KeTaxiApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-      home: isLoggedIn ? HomeView() : SigninView() ,
-      routes: {
-        Routes.home: (context) => HomeView(),
-        Routes.profile: (context) => ProfileView(),
-        Routes.history: (context) => HistoryView(),
-        Routes.about: (context) => AboutView(),
-        Routes.contact: (context) => ContactView(),
-        Routes.policy: (context) => PolicyView(),
-        Routes.signin: (context) => SigninView(),
-        Routes.signup: (context) => SignupView(),
-      },
+        home: HomeView(),
+        routes: {
+          Routes.home: (context) => HomeView(),
+          Routes.profile: (context) => ProfileView(),
+          Routes.history: (context) => HistoryView(),
+          Routes.about: (context) => AboutView(),
+          Routes.contact: (context) => ContactView(),
+          Routes.policy: (context) => PolicyView(),
+          Routes.signin: (context) => SigninView(),
+          Routes.signup: (context) => SignupView(),
+        },
+      ),
+      client: client,
     );
   }
 }
