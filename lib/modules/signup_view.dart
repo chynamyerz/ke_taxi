@@ -7,6 +7,8 @@ class SignupView extends StatelessWidget {
   static const String routeName = '/signup';
   final _formKey = GlobalKey<FormState>();
 
+
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -20,6 +22,7 @@ class SignupView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: ListView(
             children: <Widget>[
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -80,10 +83,12 @@ class SignupView extends StatelessWidget {
                                 BorderRadius.all(Radius.circular(4.0))),
                         prefixIcon:
                             Icon(Icons.mail, color: Colors.orangeAccent),
+
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.orange),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(4.0))),
+
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -190,6 +195,7 @@ class SignupView extends StatelessWidget {
                     children: <Widget>[
                       Text('Already have an account? '),
                       GestureDetector(
+
                         child: Text("Signin",
                             style: TextStyle(color: Colors.blue)),
                         onTap: () {
@@ -198,12 +204,14 @@ class SignupView extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => SigninView()),
                           );
+
                         },
                       ),
                     ],
                   ),
                 ],
               ),
+
             ],
           ),
         ),
