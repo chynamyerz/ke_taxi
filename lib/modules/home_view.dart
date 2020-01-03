@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ke_taxi/widgets/drawer.dart';
+import 'package:ke_taxi/routes/Rroutes.dart';
 
 class HomeView extends StatefulWidget {
   static const String routeName = '/home';
@@ -35,6 +36,13 @@ class _HomeViewState extends State<HomeView> {
     return new Scaffold(
       appBar: AppBar(
         title: Text("Home"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_left),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, Routes.signin),
+          ),
+        ],
       ),
       drawer: AppDrawer(),
       body: Card(
