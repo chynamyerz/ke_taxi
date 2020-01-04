@@ -9,12 +9,12 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  String _email;
+  String _token;
 
   _AppDrawerState() {
     SharedPreferences.getInstance().then((preferences) {
       setState(() {
-        _email = preferences.getString('email');
+        _token = preferences.getString('token');
       });
     });
   }
@@ -22,8 +22,8 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     final String userQuery = """
-      query USER_QUERY(\$email: String!){
-        user(email: \$email){
+      query USER_QUERY(\$token: String!){
+        user(token: \$token){
           id
           name
           email
@@ -32,12 +32,12 @@ class _AppDrawerState extends State<AppDrawer> {
       }
     """;
 
-    if (_email != null) {
+    if (_token != null) {
       return Drawer(
         child: Query(
           options: QueryOptions(
             documentNode: gql(userQuery),
-            variables: {'email': _email},
+            variables: {'token': _token},
           ),
           builder: (QueryResult result,
               {VoidCallback refetch, FetchMore fetchMore}) {
@@ -51,18 +51,21 @@ class _AppDrawerState extends State<AppDrawer> {
 
             Map user = result.data['user'];
 
+            final String name = user['name'];
+            final String email = user['email'];
+
             print(user);
 
             return ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  accountName: Text("Ke Taxi"),
-                  accountEmail: Text("ketaxi@gmail.com"),
+                  accountName: Text("Hi " + name),
+                  accountEmail: Text(email),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.white,
                     child: Text(
-                      "K",
+                      name.substring(0, 1),
                       style: TextStyle(fontSize: 40.0),
                     ),
                   ),
@@ -120,8 +123,8 @@ class _AppDrawerState extends State<AppDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text("Ke Taxi"),
-            accountEmail: Text("ketaxi@gmail.com"),
+            accountName: Text("Not signed in"),
+            accountEmail: Text(""),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
               child: Text(
@@ -134,18 +137,6 @@ class _AppDrawerState extends State<AppDrawer> {
             icon: Icons.home,
             text: 'Home',
             onTap: () => Navigator.pushReplacementNamed(context, Routes.home),
-          ),
-          _createDrawerItem(
-            icon: Icons.person,
-            text: 'Profile',
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, Routes.profile),
-          ),
-          _createDrawerItem(
-            icon: Icons.history,
-            text: 'History',
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, Routes.history),
           ),
           Divider(),
           _createDrawerItem(

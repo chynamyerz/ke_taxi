@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ke_taxi/modules/signin_view.dart';
 import 'package:ke_taxi/widgets/drawer.dart';
+import 'package:ke_taxi/widgets/home_form_widget.dart';
 import 'package:ke_taxi/modules/confirm_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -13,9 +14,9 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   String _selectedFromLocation;
   String _selectedToLocation;
-  int _selectedPassager = 0;
+  int _selectedPassenger = 0;
 
-  List<String> passagers = [
+  List<String> passengers = [
     "1",
     "2",
     "3",
@@ -32,7 +33,19 @@ class _HomeViewState extends State<HomeView> {
     "14",
     "15"
   ];
-  List<DropdownMenuItem<String>> locationList = [];
+
+  void handleOnChange(key, value) {
+    if (key == 'to') {
+      setState(() {
+        _selectedToLocation = value;
+      });
+    } else {
+      setState(() {
+        _selectedFromLocation = value;
+      });
+    }
+
+  }
 
   void showCustomDialog(BuildContext context,
       {@required String title,
@@ -54,23 +67,23 @@ class _HomeViewState extends State<HomeView> {
                   height: 70.0,
                   child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: passagers
+                      children: passengers
                           .map(
                             (item) => new Container(
                                 width: 70,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: FlatButton(
-                                    color: _selectedPassager ==
-                                            passagers.indexOf(item) + 1
+                                    color: _selectedPassenger ==
+                                            passengers.indexOf(item) + 1
                                         ? Colors.orange
                                         : Colors.white,
                                     onPressed: () => {
                                       setState(() {
-                                        _selectedPassager =
-                                            passagers.indexOf(item) + 1;
+                                        _selectedPassenger =
+                                            passengers.indexOf(item) + 1;
                                       }),
-                                      print(_selectedPassager)
+                                      print(_selectedPassenger)
                                     },
                                     child: Text(
                                       item,
@@ -96,75 +109,8 @@ class _HomeViewState extends State<HomeView> {
         });
   }
 
-  void loadLocationList() {
-    locationList = [];
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Taxi Rank'),
-      value: 'Taxi Rank',
-    ));
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Down Town'),
-      value: 'Down Town',
-    ));
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Ekasi'),
-      value: 'Ekasi',
-    ));
-  }
-
-  List<Widget> getFormWidget() {
-    List<Widget> formWidget = new List();
-
-    formWidget.add(
-      new DropdownButton(
-        icon: Icon(Icons.keyboard_arrow_down),
-        hint: new Text('From'),
-        items: locationList,
-        value: _selectedFromLocation,
-        underline: Container(
-          height: 2,
-          color: Colors.white,
-        ),
-        onChanged: (value) {
-          setState(() {
-            _selectedFromLocation = value;
-          });
-        },
-        isExpanded: true,
-      ),
-    );
-
-    formWidget.add(
-      Divider(
-        color: Colors.black,
-        height: 2,
-      ),
-    );
-    formWidget.add(
-      new DropdownButton(
-        icon: Icon(Icons.keyboard_arrow_down),
-        hint: new Text('To'),
-        items: locationList,
-        value: _selectedToLocation,
-        underline: Container(
-          height: 2,
-          color: Colors.white,
-        ),
-        onChanged: (value) {
-          setState(() {
-            _selectedToLocation = value;
-          });
-        },
-        isExpanded: true,
-      ),
-    );
-
-    return formWidget;
-  }
-
   @override
   Widget build(BuildContext context) {
-    loadLocationList();
     return new Scaffold(
       appBar: AppBar(
         title: Text("Home"),
@@ -180,10 +126,11 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             onPressed: () {
               Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SigninView(),),
-                    );
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SigninView(),
+                ),
+              );
             },
             icon: Icon(
               Icons.exit_to_app,
@@ -228,7 +175,7 @@ class _HomeViewState extends State<HomeView> {
                     FlatButton(
                       onPressed: () {
                         setState(() {
-                          _selectedPassager = 1;
+                          _selectedPassenger = 1;
                         });
                       },
                       child: Container(
@@ -244,7 +191,7 @@ class _HomeViewState extends State<HomeView> {
                                 icon: Icon(Icons.person),
                                 onPressed: () {
                                   setState(() {
-                                    _selectedPassager = 1;
+                                    _selectedPassenger = 1;
                                   });
                                 },
                               ),
@@ -264,10 +211,9 @@ class _HomeViewState extends State<HomeView> {
                             okBtnText: "Save",
                             cancelBtnText: "Cancel",
                             okBtnFunction: () => {
-                                  setState(() {
-                                    _selectedPassager = _selectedPassager;
-                                  }),
-                                  Navigator.pop(context)
+                                  setState(() =>
+                                      _selectedPassenger = _selectedPassenger),
+                                  Navigator.pop(context),
                                 });
                       },
                       child: Container(
@@ -289,10 +235,10 @@ class _HomeViewState extends State<HomeView> {
                                         cancelBtnText: "Cancel",
                                         okBtnFunction: () => {
                                               setState(() {
-                                                _selectedPassager =
-                                                    _selectedPassager;
+                                                _selectedPassenger =
+                                                    _selectedPassenger;
                                               }),
-                                              Navigator.pop(context)
+                                              Navigator.pop(context),
                                             });
                                   }
                                 },
@@ -312,7 +258,7 @@ class _HomeViewState extends State<HomeView> {
               Container(
                 padding: EdgeInsets.fromLTRB(10.0, 25.0, 0.0, 0.0),
                 child: Text(
-                  'Ride for ${_selectedPassager} people',
+                  'Ride for $_selectedPassenger people',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -326,7 +272,7 @@ class _HomeViewState extends State<HomeView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ConfirmView(_selectedPassager,
+                        builder: (context) => ConfirmView(_selectedPassenger,
                             _selectedFromLocation, _selectedToLocation),
                       ),
                     );
@@ -350,27 +296,36 @@ class _HomeViewState extends State<HomeView> {
                 Container(
                   padding: EdgeInsets.fromLTRB(5, 5, 7, 5),
                   height: 80,
-                  
                   child: Column(
-                
                     children: <Widget>[
-                      
-                    Icon(Icons.place,color: Colors.orange,size: 20,),
-                    Expanded(child:Container(
-  width: 1,
-  height: double.maxFinite,
-  color: Colors.grey,
-) ,),
-                     Icon(Icons.album,color: Colors.blueGrey,size: 20,)
-
-                  ],),),
+                      Icon(
+                        Icons.place,
+                        color: Colors.orange,
+                        size: 20,
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 1,
+                          height: double.maxFinite,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Icon(
+                        Icons.album,
+                        color: Colors.blueGrey,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                ),
                 Expanded(
-                  
-                  child:Container(
+                  child: Container(
                     padding: EdgeInsets.only(right: 5),
-                    child:Column(
-                      children: getFormWidget(),
-                    ) ,) ,), 
+                    child: Column(
+                      children: getFormWidget(_selectedFromLocation, _selectedToLocation, handleOnChange),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

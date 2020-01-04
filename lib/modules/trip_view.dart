@@ -3,77 +3,17 @@ import 'package:ke_taxi/modules/home_view.dart';
 import 'package:ke_taxi/widgets/drawer.dart';
 
 class TripView extends StatefulWidget {
-  final int passagers;
-  final String from;
-  final String to;
+  final int passengers;
+  final String selectedFromLocation;
+  final String selectedToLocation;
 
-  const TripView(this.passagers, this.from, this.to);
+  const TripView(this.passengers, this.selectedFromLocation, this.selectedToLocation);
 
   @override
   _TripViewState createState() => _TripViewState();
 }
 
 class _TripViewState extends State<TripView> {
-  List<DropdownMenuItem<String>> locationList = [];
-
-  void loadLocationList() {
-    locationList = [];
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Taxi Rank'),
-      value: 'Taxi Rank',
-    ));
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Down Town'),
-      value: 'Down Town',
-    ));
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Ekasi'),
-      value: 'Ekasi',
-    ));
-  }
-
-  List<Widget> getFormWidget() {
-    List<Widget> formWidget = new List();
-
-    formWidget.add(
-      new DropdownButton(
-        icon: Icon(Icons.keyboard_arrow_down),
-        hint: new Text('From'),
-        items: locationList,
-        value: widget.from,
-        underline: Container(
-          height: 2,
-          color: Colors.white,
-        ),
-        onChanged: (value) {},
-        isExpanded: true,
-      ),
-    );
-
-    formWidget.add(
-      Divider(
-        color: Colors.black,
-        height: 2,
-      ),
-    );
-    formWidget.add(
-      new DropdownButton(
-        icon: Icon(Icons.keyboard_arrow_down),
-        hint: new Text('To'),
-        items: locationList,
-        value: widget.to,
-        underline: Container(
-          height: 2,
-          color: Colors.white,
-        ),
-        onChanged: (value) {},
-        isExpanded: true,
-      ),
-    );
-
-    return formWidget;
-  }
-
   Future<bool> driverArrivedAction() async {
     //replace the below line of code with your login request
     await new Future.delayed(const Duration(seconds: 5));
@@ -82,10 +22,9 @@ class _TripViewState extends State<TripView> {
 
   @override
   Widget build(BuildContext context) {
-    loadLocationList();
     return new Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Trip"),
         actions: <Widget>[
           Container(
             child: Center(
@@ -167,20 +106,29 @@ class _TripViewState extends State<TripView> {
                         ),
                       ],
                     ),
-                    
-                    Expanded(  
+                    Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('77 5th Road halfway Gardens',style: TextStyle(fontSize: 17,color: Colors.white),),
-                          Text('Calsward Lifestyle shooping',style: TextStyle(fontSize: 17,color: Colors.white),),
+                          Text(
+                            '77 5th Road halfway Gardens',
+                            style: TextStyle(fontSize: 17, color: Colors.white),
+                          ),
+                          Text(
+                            'Calsward Lifestyle shooping',
+                            style: TextStyle(fontSize: 17, color: Colors.white),
+                          ),
                         ],
                       ),
                     ),
                     Container(
                       alignment: Alignment.centerRight,
-                      child: Icon(Icons.departure_board,color: Colors.white,),),
+                      child: Icon(
+                        Icons.departure_board,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -193,7 +141,7 @@ class _TripViewState extends State<TripView> {
               ),
               SizedBox(
                 width: double.infinity,
-                height: 80, 
+                height: 80,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 35.0),
                   child: Padding(
