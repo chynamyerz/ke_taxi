@@ -45,12 +45,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/keTaxi.png
-     - assets/images/1.5x/keTaxi.png
-     - assets/images/1x/keTaxi.png
-     - assets/images/2x/keTaxi.png
-     - assets/images/3x/keTaxi.png
-     - assets/images/4x/keTaxi.png
+     - assets/taxidup.gif
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
