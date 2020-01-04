@@ -14,10 +14,11 @@ description: Ke-Taxi App
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   graphql_flutter: ^2.1.1-beta.5
+  jaguar_jwt: ^2.1.6
   shared_preferences: ^0.5.6
   flutter:
     sdk: flutter

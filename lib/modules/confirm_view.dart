@@ -1,81 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:ke_taxi/widgets/drawer.dart';
 import 'package:ke_taxi/modules/driver_wait_view.dart';
-
+import 'package:ke_taxi/widgets/form_widget.dart';
 
 class ConfirmView extends StatefulWidget {
   static const String routeName = '/confirm';
-  final int passagers;
-  final String from;
-  final String to;
+  final int passengers;
+  final String selectedFromLocation;
+  final String selectedToLocation;
 
-  const ConfirmView(this.passagers, this.from, this.to);
+  const ConfirmView(
+      this.passengers, this.selectedFromLocation, this.selectedToLocation);
 
   @override
   _ConfirmViewState createState() => _ConfirmViewState();
 }
 
 class _ConfirmViewState extends State<ConfirmView> {
-  List<DropdownMenuItem<String>> locationList = [];
-
-  void loadLocationList() {
-    locationList = [];
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Taxi Rank'),
-      value: 'Taxi Rank',
-    ));
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Down Town'),
-      value: 'Down Town',
-    ));
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Ekasi'),
-      value: 'Ekasi',
-    ));
-  }
-
-  List<Widget> getFormWidget() {
-    List<Widget> formWidget = new List();
-
-    formWidget.add(
-      new DropdownButton(
-        icon: Icon(Icons.keyboard_arrow_down),
-        hint: new Text('From'),
-        items: locationList,
-        value: widget.from,
-        underline: Container(
-          height: 2,
-          color: Colors.white,
-        ),
-        onChanged: (value) {},
-        isExpanded: true,
-      ),
-    );
-
-    formWidget.add(
-      Divider(
-        color: Colors.black,
-        height: 2,
-      ),
-    );
-    formWidget.add(
-      new DropdownButton(
-        icon: Icon(Icons.keyboard_arrow_down),
-        hint: new Text('To'),
-        items: locationList,
-        value: widget.to,
-        underline: Container(
-          height: 2,
-          color: Colors.white,
-        ),
-        onChanged: (value) {},
-        isExpanded: true,
-      ),
-    );
-
-    return formWidget;
-  }
-
   Future<bool> driverRequestAction() async {
     //replace the below line of code with your login request
     await new Future.delayed(const Duration(seconds: 5));
@@ -84,10 +25,9 @@ class _ConfirmViewState extends State<ConfirmView> {
 
   @override
   Widget build(BuildContext context) {
-    loadLocationList();
     return new Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Confirm"),
         actions: <Widget>[
           Container(
             child: Center(
@@ -145,7 +85,7 @@ class _ConfirmViewState extends State<ConfirmView> {
                   Container(
                     padding: EdgeInsets.only(top: 10),
                     child: Text(
-                      'Ride for ${widget.passagers} people',
+                      'Ride for ${widget.passengers} people',
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                   ),
@@ -163,8 +103,8 @@ class _ConfirmViewState extends State<ConfirmView> {
                     ),
                   ),
                   SizedBox(
-                    width: double.infinity, 
-                    height: 80,// match_parent
+                    width: double.infinity,
+                    height: 80, // match_parent
                     child: Padding(
                       padding: const EdgeInsets.only(top: 35.0),
                       child: Padding(
@@ -183,11 +123,17 @@ class _ConfirmViewState extends State<ConfirmView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DriverWaitView(widget.passagers, widget.from, widget.to) ,
+                                builder: (context) => DriverWaitView(
+                                    widget.passengers,
+                                    widget.selectedFromLocation,
+                                    widget.selectedToLocation),
                               ),
                             );
                           },
-                          child: Text('CONFIRM PICKUP',style: TextStyle(color: Colors.white),),
+                          child: Text(
+                            'CONFIRM PICKUP',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
@@ -207,27 +153,33 @@ class _ConfirmViewState extends State<ConfirmView> {
                 Container(
                   padding: EdgeInsets.fromLTRB(5, 5, 7, 5),
                   height: 80,
-                  
                   child: Column(
-                
                     children: <Widget>[
-                      
-                    Icon(Icons.place,color: Colors.orange,size: 20,),
-                    Expanded(child:Container(
-  width: 1,
-  height: double.maxFinite,
-  color: Colors.grey,
-) ,),
-                     Icon(Icons.album,color: Colors.blueGrey,size:20)
-
-                  ],),),
+                      Icon(
+                        Icons.place,
+                        color: Colors.orange,
+                        size: 20,
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 1,
+                          height: double.maxFinite,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Icon(Icons.album, color: Colors.blueGrey, size: 20)
+                    ],
+                  ),
+                ),
                 Expanded(
-                  
-                  child:Container(
+                  child: Container(
                     padding: EdgeInsets.only(right: 5),
-                    child:Column(
-                      children: getFormWidget(),
-                    ) ,) ,), 
+                    child: Column(
+                      children: getFormWidget(widget.selectedFromLocation,
+                          widget.selectedToLocation),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

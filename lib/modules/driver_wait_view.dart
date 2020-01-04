@@ -1,90 +1,29 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:ke_taxi/modules/home_view.dart';
 import 'package:ke_taxi/widgets/drawer.dart';
+import 'package:ke_taxi/widgets/form_widget.dart';
 import 'package:ke_taxi/modules/trip_view.dart';
 
 class DriverWaitView extends StatefulWidget {
-  final int passagers;
-  final String from;
-  final String to;
+  final int passengers;
+  final String selectedFromLocation;
+  final String selectedToLocation;
 
   const DriverWaitView(
-    this.passagers, 
-    this.from, this.to,
-    );
+    this.passengers,
+    this.selectedFromLocation,
+    this.selectedToLocation,
+  );
 
   @override
   _DriverWaitViewState createState() => _DriverWaitViewState();
 }
 
 class _DriverWaitViewState extends State<DriverWaitView> {
-  List<DropdownMenuItem<String>> locationList = [];
-
-@override
+  @override
   void initState() {
-   driverArrivedAction();
+    driverArrivedAction();
     super.initState();
-  }
-
-
-  void loadLocationList() {
-    locationList = [];
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Taxi Rank'),
-      value: 'Taxi Rank',
-    ));
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Down Town'),
-      value: 'Down Town',
-    ));
-    locationList.add(new DropdownMenuItem(
-      child: new Text('Ekasi'),
-      value: 'Ekasi',
-    ));
-  }
-
-  List<Widget> getFormWidget() {
-    List<Widget> formWidget = new List();
-
-    formWidget.add(
-      new DropdownButton(
-        icon: Icon(Icons.keyboard_arrow_down),
-        hint: new Text('From'),
-        items: locationList,
-        value: widget.from,
-        underline: Container(
-          height: 2,
-          color: Colors.white,
-        ),
-        onChanged: (value) {},
-        isExpanded: true,
-      ),
-    );
-
-    formWidget.add(
-      Divider(
-        color: Colors.black,
-        height: 2,
-      ),
-    );
-    formWidget.add(
-      new DropdownButton(
-        icon: Icon(Icons.keyboard_arrow_down),
-        hint: new Text('To'),
-        items: locationList,
-        value: widget.to,
-        underline: Container(
-          height: 2,
-          color: Colors.white,
-        ),
-        onChanged: (value) {},
-        isExpanded: true,
-      ),
-    );
-
-    return formWidget;
   }
 
   driverArrivedAction() async {
@@ -94,16 +33,15 @@ class _DriverWaitViewState extends State<DriverWaitView> {
       context,
       MaterialPageRoute(
           builder: (context) =>
-              TripView(widget.passagers, widget.to, widget.from)),
+              TripView(widget.passengers, widget.selectedToLocation, widget.selectedFromLocation)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    loadLocationList();
     return new Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("On it way"),
         actions: <Widget>[
           Container(
             child: Center(
@@ -223,7 +161,7 @@ class _DriverWaitViewState extends State<DriverWaitView> {
               )
             ]),
       ),
-      body:Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Card(
@@ -234,27 +172,36 @@ class _DriverWaitViewState extends State<DriverWaitView> {
                 Container(
                   padding: EdgeInsets.fromLTRB(5, 5, 7, 5),
                   height: 80,
-                  
                   child: Column(
-                
                     children: <Widget>[
-                      
-                    Icon(Icons.place,color: Colors.orange,size: 20,),
-                    Expanded(child:Container(
-  width: 1,
-  height: double.maxFinite,
-  color: Colors.grey,
-) ,),
-                     Icon(Icons.album,color: Colors.blueGrey,size: 20,)
-
-                  ],),),
+                      Icon(
+                        Icons.place,
+                        color: Colors.orange,
+                        size: 20,
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 1,
+                          height: double.maxFinite,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Icon(
+                        Icons.album,
+                        color: Colors.blueGrey,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                ),
                 Expanded(
-                  
-                  child:Container(
+                  child: Container(
                     padding: EdgeInsets.only(right: 5),
-                    child:Column(
-                      children: getFormWidget(),
-                    ) ,) ,), 
+                    child: Column(
+                      children: getFormWidget(widget.selectedFromLocation, widget.selectedToLocation),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
