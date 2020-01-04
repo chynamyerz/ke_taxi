@@ -18,14 +18,14 @@ class KeTaxiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
-      uri: 'http://192.168.0.103:4000',
-      includeExtensions: true,
-      credentials: {'include': true},
+      uri: "http://192.168.0.103:4000",
     );
 
     final ValueNotifier<GraphQLClient> client = ValueNotifier(
       GraphQLClient(
-        cache: InMemoryCache(),
+        cache:  NormalizedInMemoryCache(
+          dataIdFromObject: typenameDataIdFromObject,
+        ),
         link: httpLink,
       ),
     );
