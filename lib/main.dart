@@ -36,7 +36,7 @@ class KeTaxiApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: HomeView(),
+        home: SigninView(),
         routes: {
           Routes.home: (context) => HomeView(),
           Routes.profile: (context) => ProfileView(),

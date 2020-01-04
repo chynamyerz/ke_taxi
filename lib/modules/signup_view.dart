@@ -20,16 +20,13 @@ class SignupView extends StatelessWidget {
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: ListView(
+          child:Center(child:ListView(
+            shrinkWrap: true,
             children: <Widget>[
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Center(
-                    child:
-                        Image.asset('assets/images/keTaxi.png', width: 200.0),
-                  ),
                   Center(
                     child: Text(
                       'Create an account',
@@ -171,7 +168,7 @@ class SignupView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: double.infinity, // match_parent
+                    width: double.infinity, 
                     child: Padding(
                       padding: const EdgeInsets.only(top: 25.0),
                       child: Padding(
@@ -213,7 +210,7 @@ class SignupView extends StatelessWidget {
               ),
 
             ],
-          ),
+          ),) ,
         ),
       ),
     );
