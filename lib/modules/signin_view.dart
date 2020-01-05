@@ -1,25 +1,25 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:jaguar_jwt/jaguar_jwt.dart';
-import 'package:ke_taxi/widgets/drawer.dart';
+import 'package:ke_taxi/routes/Routes.dart';
 import 'package:ke_taxi/modules/signup_view.dart';
+import 'package:ke_taxi/widgets/drawer.dart';
+import 'package:ke_taxi/graphql/mutation.dart';
 
-class SigninView extends StatelessWidget {
+class SigninView extends StatefulWidget {
   static const String routeName = '/signin';
+
+  @override
+  _SigninViewState createState() => _SigninViewState();
+}
+
+class _SigninViewState extends State<SigninView> {
   final _formKey = GlobalKey<FormState>();
+  String _email;
+  String _password;
 
   @override
   Widget build(BuildContext context) {
-    final signinQuery = """
-      mutation SIGNIN_MUTATION(\$email: String! \$password: String!){
-        signin(email: \$email password: \$password){
-          token
-        }
-      }
-    """;
     return new Scaffold(
       appBar: AppBar(
         title: Text("Signin"),
@@ -27,17 +27,16 @@ class SigninView extends StatelessWidget {
       drawer: AppDrawer(),
       body: Mutation(
         options: MutationOptions(
-          documentNode: gql(signinQuery),
+          documentNode: gql(signinMutation()),
           onCompleted: (dynamic resultData) async {
             String token = resultData['signin']['token'];
-            final payload = token.split('.')[1];
-            final Map user =
-                json.decode(B64urlEncRfc7515.decodeUtf8(payload))['user'];
 
             SharedPreferences preferences =
                 await SharedPreferences.getInstance();
             await preferences.setString(
                 'token', (token != null && token.length > 0) ? token : "");
+
+            Navigator.pushReplacementNamed(context, Routes.home);
           },
         ),
         builder: (
@@ -93,6 +92,11 @@ class SigninView extends StatelessWidget {
                               }
                               return null;
                             },
+                            onChanged: (value) {
+                              setState(() {
+                                _email = value;
+                              });
+                            },
                           ),
                         ),
                         Padding(
@@ -117,6 +121,11 @@ class SigninView extends StatelessWidget {
                               }
                               return null;
                             },
+                            onChanged: (value) {
+                              setState(() {
+                                _password = value;
+                              });
+                            },
                           ),
                         ),
                         SizedBox(
@@ -130,8 +139,8 @@ class SigninView extends StatelessWidget {
                                 color: Colors.orange,
                                 onPressed: () {
                                   runMutation({
-                                    'email': 'rider@gmail.com',
-                                    'password': 'rider',
+                                    'email': _email,
+                                    'password': _password,
                                   });
                                 },
                                 child: Text('Signin'),

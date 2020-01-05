@@ -7,7 +7,7 @@ import 'package:ke_taxi/modules/policy_view.dart';
 import 'package:ke_taxi/modules/profile_view.dart';
 import 'package:ke_taxi/modules/signin_view.dart';
 import 'package:ke_taxi/modules/signup_view.dart';
-import 'package:ke_taxi/routes/Rroutes.dart';
+import 'package:ke_taxi/routes/Routes.dart';
 import 'package:ke_taxi/modules/home_view.dart';
 
 void main() {
@@ -23,9 +23,7 @@ class KeTaxiApp extends StatelessWidget {
 
     final ValueNotifier<GraphQLClient> client = ValueNotifier(
       GraphQLClient(
-        cache:  NormalizedInMemoryCache(
-          dataIdFromObject: typenameDataIdFromObject,
-        ),
+        cache:  InMemoryCache(),
         link: httpLink,
       ),
     );

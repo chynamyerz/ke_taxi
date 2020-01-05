@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:ke_taxi/routes/Rroutes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ke_taxi/routes/Routes.dart';
+import 'package:ke_taxi/graphql/query.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -21,22 +22,11 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final String userQuery = """
-      query USER_QUERY(\$token: String!){
-        user(token: \$token){
-          id
-          name
-          email
-          roles
-        }
-      }
-    """;
-
     if (_token != null) {
       return Drawer(
         child: Query(
           options: QueryOptions(
-            documentNode: gql(userQuery),
+            documentNode: gql(userQuery()),
             variables: {'token': _token},
           ),
           builder: (QueryResult result,
@@ -65,7 +55,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.white,
                     child: Text(
-                      name.substring(0, 1),
+                      name.substring(0, 1).toUpperCase(),
                       style: TextStyle(fontSize: 40.0),
                     ),
                   ),
