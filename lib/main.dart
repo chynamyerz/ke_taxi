@@ -18,7 +18,7 @@ class KeTaxiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HttpLink httpLink = HttpLink(
-      uri: "http://192.168.0.103:4000",
+      uri: "https://ke-taxi-api.herokuapp.com/",
     );
 
     final ValueNotifier<GraphQLClient> client = ValueNotifier(
