@@ -23,30 +23,32 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     if (_token != null) {
-      return Drawer(
-        child: Query(
-          options: QueryOptions(
-            documentNode: gql(userQuery()),
-            variables: {'token': _token},
-          ),
-          builder: (QueryResult result,
-              {VoidCallback refetch, FetchMore fetchMore}) {
-            if (result.hasException) {
-              return Text(result.exception.toString());
-            }
+      return Query(
+        options: QueryOptions(
+          documentNode: gql(userQuery()),
+          variables: {'token': _token},
+        ),
+        builder: (QueryResult result,
+            {VoidCallback refetch, FetchMore fetchMore}) {
+          if (result.hasException) {
+            return Drawer(
+              child: Text(result.exception.toString()),
+            );
+          }
 
-            if (result.loading) {
-              return Text('Loading...');
-            }
+          if (result.loading) {
+            return Drawer(
+              child: Text('Loading...'),
+            );
+          }
 
-            Map user = result.data['user'];
+          Map user = result.data['user'];
 
-            final String name = user['name'];
-            final String email = user['email'];
+          final String name = user['name'];
+          final String email = user['email'];
 
-            print(user);
-
-            return ListView(
+          return Drawer(
+            child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
                 UserAccountsDrawerHeader(
@@ -102,9 +104,9 @@ class _AppDrawerState extends State<AppDrawer> {
                   onTap: () {},
                 ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       );
     }
 

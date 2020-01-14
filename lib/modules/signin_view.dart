@@ -43,6 +43,9 @@ class _SigninViewState extends State<SigninView> {
           RunMutation runMutation,
           QueryResult result,
         ) {
+          if (result.loading) {
+            return Text('Loading...');
+          }
           return Form(
             key: _formKey,
             child: Padding(
